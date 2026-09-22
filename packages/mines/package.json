@@ -4,6 +4,24 @@
   "description": "A minimal Astro docs integration",
   "type": "module",
   "license": "MIT",
+  "homepage": "https://mines.deltaq.dev",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/deltaqdev/mines.git",
+    "directory": "packages/mines"
+  },
+  "keywords": [
+    "astro",
+    "astro-integration",
+    "astro-component",
+    "documentation",
+    "docs",
+    "theme",
+    "mdx"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
   "exports": {
     ".": "./index.ts",
     "./loader": "./loader.ts",
@@ -35,6 +53,7 @@
     "@types/node": "^26.6.2",
     "astro": "^7.3.3",
     "shiki": "^4.4.3",
+    "typescript": "^6.0.3",
     "vite": "^8.3.0"
   }
 }
