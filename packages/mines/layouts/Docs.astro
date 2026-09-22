@@ -5,6 +5,7 @@ import { Header, Sidebar, PageHeader, Toc, Pager, Footer } from 'virtual:mines/c
 import config from 'virtual:mines/config';
 import 'virtual:mines/styles';
 import Head from '../components/layout/Head.astro';
+import Scrollbar from '../components/layout/Scrollbar.astro';
 import { getDocs } from '../lib/docs';
 import { tocLinkGroups } from '../lib/links';
 import { sectionOf, sidebarGroups, surroundingPages } from '../lib/navigation';
@@ -45,11 +46,13 @@ const tocLinks = tocLinkGroups(entry, entries);
       </main>
       <Toc headings={tocHeadings} links={tocLinks} />
     </div>
+    <Scrollbar />
   </body>
 </html>
 
 <script>
   import '../scripts/code-copy';
+  import '../scripts/scrollbars';
 </script>
 
 <style>

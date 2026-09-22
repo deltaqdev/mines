@@ -1,0 +1,87 @@
+---
+// Overlay scrollbar for the page. The native one is hidden so it takes no layout width.
+---
+
+<div class="scrollbar" aria-hidden="true" hidden>
+  <div class="thumb"></div>
+</div>
+
+<script>
+  const MIN_THUMB = 32;
+
+  const root = document.documentElement;
+  const scrollbar = document.querySelector<HTMLElement>('.scrollbar')!;
+  const thumb = scrollbar.querySelector<HTMLElement>('.thumb')!;
+
+  function update() {
+    const { scrollHeight, clientHeight, scrollTop } = root;
+    const scrollable = scrollHeight - clientHeight;
+
+    scrollbar.hidden = scrollable < 1;
+    if (scrollbar.hidden) return;
+
+    const height = Math.max((clientHeight / scrollHeight) * clientHeight, MIN_THUMB);
+    thumb.style.height = `${height}px`;
+    thumb.style.translate = `0 ${(scrollTop / scrollable) * (clientHeight - height)}px`;
+  }
+
+  function drag(event: PointerEvent) {
+    const start = event.clientY;
+    const from = root.scrollTop;
+    const travel = root.clientHeight - thumb.offsetHeight;
+
+    thumb.setPointerCapture(event.pointerId);
+    scrollbar.toggleAttribute('data-dragging', true);
+
+    const move = (moved: PointerEvent) => {
+      const ratio = (moved.clientY - start) / travel;
+      root.scrollTop = from + ratio * (root.scrollHeight - root.clientHeight);
+    };
+
+    const stop = () => {
+      scrollbar.removeAttribute('data-dragging');
+      thumb.removeEventListener('pointermove', move);
+      thumb.removeEventListener('pointerup', stop);
+    };
+
+    thumb.addEventListener('pointermove', move);
+    thumb.addEventListener('pointerup', stop, { once: true });
+  }
+
+  thumb.addEventListener('pointerdown', drag);
+  addEventListener('scroll', update, { passive: true });
+  new ResizeObserver(update).observe(document.body);
+</script>
+
+<style>
+  .scrollbar {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 50;
+    width: 0.625rem;
+    opacity: 0;
+    transition: opacity var(--duration-slow) var(--ease-out);
+  }
+
+  :global([data-scrolling]) .scrollbar,
+  .scrollbar:hover,
+  .scrollbar[data-dragging] {
+    opacity: 1;
+  }
+
+  .thumb {
+    width: 0.375rem;
+    margin-left: auto;
+    margin-right: 0.125rem;
+    border-radius: 999px;
+    background: var(--scrollbar-thumb);
+    transition: background-color var(--duration);
+  }
+
+  .thumb:hover,
+  [data-dragging] .thumb {
+    background: var(--scrollbar-thumb-hover);
+  }
+</style>

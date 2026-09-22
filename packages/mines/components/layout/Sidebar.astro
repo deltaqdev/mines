@@ -35,8 +35,8 @@ const { groups, currentId } = Astro.props;
     height: calc(100dvh - var(--sticky-top));
     padding: 1.5rem 0.5rem 2rem 0;
     overflow-y: auto;
+    scrollbar-width: none;
     font-size: var(--text-sm);
-    scrollbar-width: thin;
   }
 
   .group + .group {
@@ -75,6 +75,10 @@ const { groups, currentId } = Astro.props;
     color: var(--accent);
     border-color: var(--accent);
     font-weight: 500;
+  }
+
+  .sidebar::-webkit-scrollbar {
+    display: none;
   }
 
   @media (max-width: 48rem) {

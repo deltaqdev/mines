@@ -18,6 +18,10 @@
   --gutter: 1.5rem;
   --page-inset: max(var(--gutter), (100vw - var(--page-width)) / 2 + var(--gutter));
 
+  --scrollbar-size: 10px;
+  --scrollbar-thumb: color-mix(in srgb, var(--fg) 20%, transparent);
+  --scrollbar-thumb-hover: color-mix(in srgb, var(--fg) 35%, transparent);
+
   --radius: 6px;
   --radius-sm: 4px;
   --duration: 150ms;

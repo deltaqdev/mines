@@ -56,6 +56,53 @@ svg {
   color: var(--selection-fg);
 }
 
+/* The page uses the overlay scrollbar in Scrollbar.astro, which takes no layout width. */
+html {
+  scrollbar-width: none;
+}
+
+html::-webkit-scrollbar {
+  display: none;
+}
+
+/* Panels keep native scrollbars, hidden until they scroll or the pointer is over them. */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: transparent transparent;
+}
+
+*::-webkit-scrollbar {
+  width: var(--scrollbar-size);
+  height: var(--scrollbar-size);
+}
+
+*::-webkit-scrollbar-track,
+*::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: transparent;
+  background-clip: padding-box;
+  border: 3px solid transparent;
+  border-radius: 999px;
+  transition: background-color var(--duration);
+}
+
+[data-scrolling],
+[data-scroll-hover] {
+  scrollbar-color: var(--scrollbar-thumb) transparent;
+}
+
+[data-scrolling]::-webkit-scrollbar-thumb,
+[data-scroll-hover]::-webkit-scrollbar-thumb {
+  background-color: var(--scrollbar-thumb);
+}
+
+[data-scroll-hover]::-webkit-scrollbar-thumb:hover {
+  background-color: var(--scrollbar-thumb-hover);
+}
+
 /* Positioned from 100vw so the layout does not shift when a scrollbar appears. */
 .container {
   padding-left: var(--page-inset);

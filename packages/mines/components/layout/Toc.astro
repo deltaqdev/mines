@@ -108,8 +108,8 @@ const levels = headings.map((heading) => heading.depth - minDepth);
     height: calc(100dvh - var(--sticky-top));
     padding: 2rem 0;
     overflow-y: auto;
-    font-size: var(--text-sm);
     scrollbar-width: none;
+    font-size: var(--text-sm);
   }
 
   .toc-title {
@@ -188,6 +188,10 @@ const levels = headings.map((heading) => heading.depth - minDepth);
     padding: 0.1875rem 0;
     color: var(--fg-subtle);
     transition: color var(--duration);
+  }
+
+  .toc::-webkit-scrollbar {
+    display: none;
   }
 
   @media (max-width: 75rem) {
