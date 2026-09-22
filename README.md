@@ -2,6 +2,8 @@
 
 A minimal, compact docs theme for Astro, inspired by [Docus](https://docus.dev). No UI framework: Astro components, plain CSS and a few small scripts.
 
+![The Mines documentation site, showing the header, sidebar, article and table of contents in dark mode](assets/hero.png)
+
 - `packages/mines`: the integration
 - `docs`: the documentation site, which is also the component gallery
 
