@@ -121,8 +121,9 @@ html::-webkit-scrollbar {
 .icon-button {
   display: inline-grid;
   place-items: center;
-  width: 2.25rem;
-  height: 2rem;
+  flex-shrink: 0;
+  width: 1.75rem;
+  height: 1.75rem;
   border-radius: var(--radius);
   color: var(--fg-muted);
   transition: color var(--duration), background-color var(--duration);
