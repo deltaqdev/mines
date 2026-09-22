@@ -1,1 +1,3 @@
-# nesdocs-template
+# mines
+
+A minimal Astro docs template
