@@ -3,14 +3,31 @@
   "installCommand": "pnpm install --frozen-lockfile",
   "buildCommand": "pnpm --filter docs build",
   "outputDirectory": "docs/dist",
+  "redirects": [
+    {
+      "source": "/",
+      "destination": "/getting-started/introduction",
+      "permanent": false
+    }
+  ],
   "headers": [
     {
       "source": "/_astro/(.*)",
-      "headers": [{ "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }]
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
+      ]
     },
     {
       "source": "/pagefind/(.*)",
-      "headers": [{ "key": "Cache-Control", "value": "public, max-age=3600" }]
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=3600"
+        }
+      ]
     }
   ]
 }
