@@ -1,0 +1,44 @@
+<div class="steps">
+  <slot />
+</div>
+
+<style>
+  .steps {
+    counter-reset: step;
+    margin-left: 0.75rem;
+    padding-left: 1.75rem;
+    border-left: 1px solid var(--border);
+  }
+
+  .steps > :global(* + *) {
+    margin-top: 0.75rem;
+  }
+
+  .steps > :global(h3) {
+    position: relative;
+    counter-increment: step;
+    margin-top: 1.75rem;
+    font-size: var(--text-lg);
+  }
+
+  .steps > :global(h3:first-child) {
+    margin-top: 0;
+  }
+
+  .steps > :global(h3)::before {
+    content: counter(step);
+    position: absolute;
+    left: calc(-1.75rem - 0.75rem);
+    top: 0;
+    display: grid;
+    place-items: center;
+    width: 1.5rem;
+    height: 1.5rem;
+    border: 1px solid var(--border);
+    border-radius: 50%;
+    background: var(--bg);
+    font-family: var(--font-sans);
+    font-size: var(--text-xs);
+    font-weight: 600;
+  }
+</style>

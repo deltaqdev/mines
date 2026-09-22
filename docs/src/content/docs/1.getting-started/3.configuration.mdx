@@ -1,0 +1,70 @@
+---
+title: Configuration
+description: Every option accepted by the integration.
+---
+
+All options are passed to `mines()` in `astro.config.mjs`. Only `title` is required.
+
+```js [astro.config.mjs]
+mines({
+  title: 'Mines',
+  logo: '/logo.svg',
+  favicon: '/favicon.svg',
+  description: 'A minimal docs theme for Astro.',
+  github: 'owner/repo',
+  editUrl: 'https://github.com/owner/repo/edit/main/',
+  subNav: 'header',
+  groups: { api: 'API reference' },
+  tocLinks: {
+    title: 'Community',
+    links: [{ label: 'Discord', href: 'https://discord.gg/example' }],
+  },
+  customCss: ['./src/styles/theme.css'],
+  components: { Footer: './src/components/Footer.astro' },
+  mdxComponents: { Video: './src/components/Video.astro' },
+});
+```
+
+## Options
+
+<FieldGroup>
+  <Field name="title" type="string" required>
+    Site name, shown in the header, page titles and OG images.
+  </Field>
+  <Field name="description" type="string">
+    Fallback meta description and the summary line of `llms.txt`.
+  </Field>
+  <Field name="favicon" type="string">
+    Icon path under `public/`, such as `/favicon.svg`.
+  </Field>
+  <Field name="logo" type="string">
+    Image shown before the title in the header, as a path under `public/`, such as `/logo.svg`.
+  </Field>
+  <Field name="github" type="string">
+    Repository as `owner/repo`. Adds a header link and a "Report an issue" link.
+  </Field>
+  <Field name="editUrl" type="string">
+    Base URL that each page's file path is appended to. Must end with `/` and point at your project root.
+  </Field>
+  <Field name="subNav" type="'none' | 'header'" default="'none'">
+    With `header`, top-level folders become tabs under the header and the sidebar shows only the active section.
+  </Field>
+  <Field name="groups" type="Record<string, string>" default="{}">
+    Sidebar labels for folder names that should not be title-cased automatically.
+  </Field>
+  <Field name="og" type="boolean" default="true">
+    Generate an Open Graph image for every page at build time.
+  </Field>
+  <Field name="tocLinks" type="{ title?: string; links: { label: string; href: string }[] }">
+    Links shown below the table of contents on every page. `title` defaults to "Links".
+  </Field>
+  <Field name="customCss" type="string[]" default="[]">
+    Stylesheets loaded after the theme. See [Theming](/guides/theming).
+  </Field>
+  <Field name="components" type="Partial<Record<Slot, string>>" default="{}">
+    Replace layout slots with your own components. See [Overriding components](/guides/overriding-components).
+  </Field>
+  <Field name="mdxComponents" type="Record<string, string>" default="{}">
+    Extra components available in every MDX file without imports.
+  </Field>
+</FieldGroup>

@@ -1,0 +1,67 @@
+---
+title: Tabs
+description: Switch between alternative pieces of content.
+---
+
+## Usage
+
+<CodePreview>
+<Tabs>
+  <Tab label="macOS">
+    Install with Homebrew: `brew install node`.
+  </Tab>
+  <Tab label="Windows">
+    Download the installer from nodejs.org.
+  </Tab>
+  <Tab label="Linux">
+    Use your distribution's package manager.
+  </Tab>
+</Tabs>
+
+```mdx
+<Tabs>
+  <Tab label="macOS">
+    Install with Homebrew: `brew install node`.
+  </Tab>
+  <Tab label="Windows">
+    Download the installer from nodejs.org.
+  </Tab>
+  <Tab label="Linux">
+    Use your distribution's package manager.
+  </Tab>
+</Tabs>
+```
+</CodePreview>
+
+## Synced tabs
+
+Tabs with the same `sync` key switch together and remember the choice.
+
+<CodePreview>
+<Tabs sync="os">
+  <Tab label="macOS">First group, macOS.</Tab>
+  <Tab label="Windows">First group, Windows.</Tab>
+</Tabs>
+<Tabs sync="os">
+  <Tab label="macOS">Second group, macOS.</Tab>
+  <Tab label="Windows">Second group, Windows.</Tab>
+</Tabs>
+
+```mdx
+<Tabs sync="os">
+  <Tab label="macOS">First group, macOS.</Tab>
+  <Tab label="Windows">First group, Windows.</Tab>
+</Tabs>
+<Tabs sync="os">
+  <Tab label="macOS">Second group, macOS.</Tab>
+  <Tab label="Windows">Second group, Windows.</Tab>
+</Tabs>
+```
+</CodePreview>
+
+## Props
+
+<FieldGroup>
+  <Field name="sync" type="string">Key shared by tab groups that should switch together.</Field>
+  <Field name="label" type="string" required>On `Tab`: the tab button text.</Field>
+</FieldGroup>

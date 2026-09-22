@@ -1,0 +1,29 @@
+---
+import { splitAtLast } from '../../lib/html';
+
+const html = await Astro.slots.render('default');
+const [preview, source] = splitAtLast(html, '<figure class="code"');
+---
+
+<div class="code-preview">
+  <div class="preview stack" set:html={preview} />
+  {source && <div class="source" data-pagefind-ignore set:html={source} />}
+</div>
+
+<style>
+  .code-preview {
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+  }
+
+  .preview {
+    padding: 1.25rem;
+  }
+
+  .source :global(.code) {
+    border: 0;
+    border-top: 1px solid var(--border);
+    border-radius: 0;
+  }
+</style>

@@ -1,0 +1,61 @@
+<div class="code-collapse" data-code-collapse>
+  <slot />
+  <button class="toggle" type="button" aria-expanded="false">Show more</button>
+</div>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-code-collapse]').forEach((root) => {
+    const toggle = root.querySelector<HTMLButtonElement>('.toggle')!;
+    toggle.addEventListener('click', () => {
+      const expanded = root.toggleAttribute('data-expanded');
+      toggle.setAttribute('aria-expanded', String(expanded));
+      toggle.textContent = expanded ? 'Show less' : 'Show more';
+    });
+  });
+</script>
+
+<style>
+  .code-collapse {
+    position: relative;
+  }
+
+  .code-collapse:not([data-expanded]) :global(pre) {
+    max-height: 12rem;
+    overflow: hidden;
+  }
+
+  .code-collapse:not([data-expanded]) :global(.code)::after {
+    content: '';
+    position: absolute;
+    inset: auto 0 0;
+    height: 5rem;
+    background: linear-gradient(transparent, var(--bg-subtle));
+    pointer-events: none;
+  }
+
+  .toggle {
+    position: absolute;
+    left: 50%;
+    bottom: 0.75rem;
+    z-index: 1;
+    translate: -50% 0;
+    height: 1.75rem;
+    padding: 0 0.75rem;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--bg);
+    font-size: var(--text-xs);
+    color: var(--fg-muted);
+  }
+
+  .toggle:hover {
+    color: var(--fg);
+  }
+
+  [data-expanded] .toggle {
+    position: static;
+    display: block;
+    translate: none;
+    margin: 0.5rem auto 0;
+  }
+</style>

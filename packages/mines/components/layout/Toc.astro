@@ -1,0 +1,198 @@
+---
+import type { MarkdownHeading } from 'astro';
+import type { LinkGroup } from '../../lib/links';
+import { railMask, ROW_REM } from '../../lib/toc';
+import Icon from '../ui/Icon.astro';
+
+interface Props {
+  headings: MarkdownHeading[];
+  links?: LinkGroup[];
+}
+
+const { headings, links = [] } = Astro.props;
+const minDepth = Math.min(...headings.map((heading) => heading.depth));
+const levels = headings.map((heading) => heading.depth - minDepth);
+---
+
+<aside class="toc" aria-label="On this page">
+  {
+    headings.length > 0 && (
+      <>
+        <p class="toc-title">On this page</p>
+        <div class="content" style={`--row: ${ROW_REM}rem`}>
+          <div class="indicator" style={`height: ${headings.length * ROW_REM}rem; mask-image: ${railMask(levels)}`}>
+            <div class="indicator-line" />
+            <div class="indicator-active" />
+          </div>
+          <ul>
+            {headings.map((heading, i) => (
+              <li data-level={levels[i]}>
+                <a href={`#${heading.slug}`} title={heading.text}>
+                  {heading.text}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </>
+    )
+  }
+  {
+    links.map((group) => (
+      <nav class="links" aria-label={group.title}>
+        <p class="toc-title">{group.title}</p>
+        <ul>
+          {group.links.map(({ label, href }) => (
+            <li>
+              <a href={href}>
+                {label}
+                {href.startsWith('http') && <Icon name="arrow-up-right" size={12} />}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </nav>
+    ))
+  }
+</aside>
+
+<script>
+  const content = document.querySelector<HTMLElement>('.toc .content');
+
+  if (content) {
+    const toc = content.closest<HTMLElement>('.toc')!;
+    const article = document.querySelector('article')!;
+    const links = [...content.querySelectorAll<HTMLAnchorElement>('a')];
+    const headings = links.map((link) => document.getElementById(decodeURIComponent(link.hash.slice(1)))!);
+    let range = '';
+
+    /** Sections (heading to next heading) that overlap the visible area below the sticky header. */
+    function visibleSections() {
+      const topLine = parseFloat(getComputedStyle(document.documentElement).scrollPaddingTop) || 0;
+      const tops = headings.map((heading) => heading.getBoundingClientRect().top);
+      const end = article.getBoundingClientRect().bottom;
+      const visible = tops.flatMap((top, i) => (top < innerHeight && (tops[i + 1] ?? end) > topLine ? [i] : []));
+
+      if (visible.length) return { first: visible[0], last: visible.at(-1)! };
+      const index = tops[0] >= innerHeight ? 0 : links.length - 1;
+      return { first: index, last: index };
+    }
+
+    function update() {
+      const { first, last } = visibleSections();
+      if (range === `${first}-${last}`) return;
+      range = `${first}-${last}`;
+
+      links.forEach((link, i) => link.toggleAttribute('data-current', i >= first && i <= last));
+      content!.style.setProperty('--indicator-position', `${first}`);
+      content!.style.setProperty('--indicator-size', `${last - first + 1}`);
+      centerInToc(links[first]);
+    }
+
+    function centerInToc(link: HTMLElement) {
+      if (toc.scrollHeight <= toc.clientHeight) return;
+      const offset = link.getBoundingClientRect().top - toc.getBoundingClientRect().top + toc.scrollTop;
+      toc.scrollTo({ top: offset - toc.clientHeight / 2, behavior: 'smooth' });
+    }
+
+    update();
+    addEventListener('scroll', update, { passive: true });
+    addEventListener('resize', update, { passive: true });
+  }
+</script>
+
+<style>
+  .toc {
+    position: sticky;
+    top: var(--sticky-top);
+    height: calc(100dvh - var(--sticky-top));
+    padding: 2rem 0;
+    overflow-y: auto;
+    font-size: var(--text-sm);
+    scrollbar-width: none;
+  }
+
+  .toc-title {
+    margin-bottom: 0.5rem;
+    font-size: var(--text-xs);
+    font-weight: 600;
+  }
+
+  .content {
+    position: relative;
+  }
+
+  .indicator {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0.75rem;
+  }
+
+  .indicator-line {
+    position: absolute;
+    inset: 0;
+    background: var(--border);
+  }
+
+  .indicator-active {
+    position: absolute;
+    width: 100%;
+    height: calc(var(--indicator-size, 0) * var(--row));
+    translate: 0 calc(var(--indicator-position, 0) * var(--row));
+    background: var(--accent);
+    transition:
+      translate var(--duration-slow) var(--ease-out),
+      height var(--duration-slow) var(--ease-out);
+  }
+
+  ul {
+    list-style: none;
+    padding: 0;
+  }
+
+  .content a {
+    display: block;
+    height: var(--row);
+    padding-left: 0.875rem;
+    overflow: hidden;
+    color: var(--fg-subtle);
+    line-height: var(--row);
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    transition: color var(--duration);
+  }
+
+  [data-level='1'] a {
+    padding-left: 1.5rem;
+  }
+
+  a:hover {
+    color: var(--fg);
+  }
+
+  a[data-current] {
+    color: var(--accent);
+  }
+
+  .links:not(:first-child) {
+    margin-top: 1.25rem;
+    padding-top: 1.25rem;
+    border-top: 1px dashed var(--border);
+  }
+
+  .links a {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 0.1875rem 0;
+    color: var(--fg-subtle);
+    transition: color var(--duration);
+  }
+
+  @media (max-width: 75rem) {
+    .toc {
+      display: none;
+    }
+  }
+</style>

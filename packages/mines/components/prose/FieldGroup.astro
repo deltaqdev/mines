@@ -1,0 +1,9 @@
+<div class="field-group">
+  <slot />
+</div>
+
+<style>
+  .field-group > :global(* + *) {
+    border-top: 1px solid var(--border);
+  }
+</style>

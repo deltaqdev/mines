@@ -1,0 +1,149 @@
+---
+import config from 'virtual:mines/config';
+import type { NavSection } from '../../lib/navigation';
+import { withBase } from '../../lib/path';
+import Icon from '../ui/Icon.astro';
+import Search from '../ui/Search.astro';
+import ThemeToggle from '../ui/ThemeToggle.astro';
+
+interface Props {
+  sections: NavSection[];
+  currentSection?: string;
+}
+
+const { sections, currentSection } = Astro.props;
+const tabs = sections.filter((section) => section.key);
+---
+
+<header class="header">
+  <div class="bar container">
+    <div class="start">
+      <button class="icon-button menu" type="button" aria-label="Toggle navigation" aria-controls="sidebar" data-nav-toggle>
+        <Icon name="menu" />
+      </button>
+      <a class="title" href={withBase('/')}>
+        {config.logo && <img class="logo" src={withBase(config.logo)} alt="" />}
+        {config.title}
+      </a>
+    </div>
+    <div class="end">
+      <Search />
+      {
+        config.github && (
+          <a class="icon-button" href={`https://github.com/${config.github}`} aria-label="GitHub repository">
+            <Icon name="github" />
+          </a>
+        )
+      }
+      <ThemeToggle />
+    </div>
+  </div>
+  {
+    tabs.length > 0 && (
+      <nav class="tabs container" aria-label="Sections">
+        {tabs.map((section) => (
+          <a href={section.href} aria-current={section.key === currentSection ? 'page' : undefined}>
+            {section.title}
+          </a>
+        ))}
+      </nav>
+    )
+  }
+</header>
+
+<script>
+  const toggle = document.querySelector<HTMLButtonElement>('[data-nav-toggle]')!;
+  const root = document.documentElement;
+
+  toggle.addEventListener('click', () => {
+    const open = root.toggleAttribute('data-nav-open');
+    toggle.setAttribute('aria-expanded', String(open));
+  });
+</script>
+
+<style>
+  .header {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    background: var(--bg);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .bar,
+  .tabs {
+    display: flex;
+    align-items: center;
+  }
+
+  .bar {
+    height: var(--header-height);
+    justify-content: space-between;
+    gap: 1rem;
+  }
+
+  .start,
+  .end {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+  }
+
+  .end {
+    gap: 0.5rem;
+  }
+
+  .title {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: var(--font-heading);
+    font-size: var(--text-lg);
+    font-weight: 600;
+  }
+
+  .logo {
+    height: 1.7rem;
+    width: auto;
+  }
+
+  .menu {
+    display: none;
+    margin-left: -0.5rem;
+  }
+
+  .tabs {
+    height: var(--subnav-height);
+    gap: 1.25rem;
+    font-size: var(--text-sm);
+  }
+
+  .tabs a {
+    display: flex;
+    align-items: center;
+    height: 100%;
+    color: var(--fg-muted);
+    border-bottom: 1px solid transparent;
+    margin-bottom: -1px;
+    transition: color var(--duration), border-color var(--duration);
+  }
+
+  .tabs a:hover {
+    color: var(--fg);
+  }
+
+  .tabs a[aria-current='page'] {
+    color: var(--fg);
+    border-color: var(--accent);
+  }
+
+  @media (max-width: 48rem) {
+    .menu {
+      display: inline-grid;
+    }
+
+    .tabs {
+      overflow-x: auto;
+    }
+  }
+</style>

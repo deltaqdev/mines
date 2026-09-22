@@ -1,0 +1,54 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import config from 'virtual:mines/config';
+import Icon from '../ui/Icon.astro';
+
+interface Props {
+  entry: CollectionEntry<'docs'>;
+}
+
+const { entry } = Astro.props;
+const editHref = config.editUrl && entry.filePath ? new URL(entry.filePath, config.editUrl).href : undefined;
+const issuesHref = config.github && `https://github.com/${config.github}/issues/new`;
+---
+
+{
+  (editHref || issuesHref) && (
+    <footer class="footer">
+      {editHref && (
+        <a href={editHref}>
+          <Icon name="pencil" size={13} />
+          Edit this page
+        </a>
+      )}
+      {issuesHref && (
+        <a href={issuesHref}>
+          <Icon name="arrow-up-right" size={13} />
+          Report an issue
+        </a>
+      )}
+    </footer>
+  )
+}
+
+<style>
+  .footer {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.25rem;
+    margin-top: 3rem;
+    font-size: var(--text-sm);
+  }
+
+  a {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
+    color: var(--fg-subtle);
+    transition: color var(--duration);
+  }
+
+  a:hover {
+    color: var(--fg);
+  }
+</style>

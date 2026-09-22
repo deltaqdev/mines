@@ -1,0 +1,53 @@
+---
+import Icon from '../ui/Icon.astro';
+
+interface Props {
+  title: string;
+  open?: boolean;
+  name?: string;
+}
+
+const { title, open, name } = Astro.props;
+---
+
+<details class="item" open={open} name={name}>
+  <summary>
+    {title}
+    <Icon name="chevron-right" size={14} class="chevron" />
+  </summary>
+  <div class="body stack">
+    <slot />
+  </div>
+</details>
+
+<style>
+  summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.625rem 1rem;
+    color: var(--fg);
+    font-size: var(--text-sm);
+    font-weight: 500;
+    cursor: pointer;
+    list-style: none;
+  }
+
+  summary::-webkit-details-marker {
+    display: none;
+  }
+
+  summary :global(.chevron) {
+    color: var(--fg-subtle);
+    transition: transform var(--duration);
+  }
+
+  .item[open] summary :global(.chevron) {
+    transform: rotate(90deg);
+  }
+
+  .body {
+    padding: 0 1rem 0.875rem;
+    font-size: var(--text-sm);
+  }
+</style>

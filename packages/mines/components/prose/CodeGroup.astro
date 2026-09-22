@@ -1,0 +1,47 @@
+---
+import { readTags } from '../../lib/html';
+import TabList from '../ui/TabList.astro';
+
+interface Props {
+  sync?: string;
+}
+
+const html = await Astro.slots.render('default');
+const labels = readTags(html, /class="code"/, ['data-title', 'data-lang']).map(
+  (tag) => tag['data-title'] || tag['data-lang'],
+);
+---
+
+<div class="code-group" data-tabs data-sync={Astro.props.sync}>
+  <TabList labels={labels}>
+    <button class="code-copy" type="button" data-copy aria-label="Copy code"></button>
+  </TabList>
+  <div class="panels" data-tab-panels set:html={html} />
+</div>
+
+<script>
+  import '../../scripts/tabs';
+</script>
+
+<style>
+  .code-group {
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--bg-subtle);
+    overflow: hidden;
+  }
+
+  .code-copy {
+    margin-left: auto;
+  }
+
+  .panels :global(.code) {
+    border: 0;
+    border-radius: 0;
+  }
+
+  .panels :global(.code-title),
+  .panels :global(.code > .code-copy) {
+    display: none;
+  }
+</style>

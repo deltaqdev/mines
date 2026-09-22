@@ -1,0 +1,43 @@
+---
+title: Code tree
+description: Browse several files in a file tree.
+---
+
+Filenames with slashes become folders. Folders are listed first, then files, alphabetically.
+
+<CodeTree>
+```json [package.json]
+{
+  "name": "my-docs",
+  "type": "module"
+}
+```
+```js [astro.config.mjs]
+import mines from '@deltaq.dev/mines';
+
+export default { integrations: [mines({ title: 'My Docs' })] };
+```
+```mdx [src/content/docs/1.intro.mdx]
+---
+title: Intro
+---
+
+Hello.
+```
+```css [src/styles/theme.css]
+:root {
+  --accent: #7c3aed;
+}
+```
+</CodeTree>
+
+````mdx
+<CodeTree>
+```json [package.json]
+{ "name": "my-docs" }
+```
+```css [src/styles/theme.css]
+:root { --accent: #7c3aed; }
+```
+</CodeTree>
+````

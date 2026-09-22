@@ -1,0 +1,9 @@
+---
+interface Props {
+  label: string;
+}
+---
+
+<div class="stack" role="tabpanel" data-tab-label={Astro.props.label}>
+  <slot />
+</div>

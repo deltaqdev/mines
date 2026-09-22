@@ -1,0 +1,23 @@
+---
+title: Search and AI
+description: Full-text search, Markdown routes, llms.txt and OG images.
+---
+
+## Search
+
+A [Pagefind](https://pagefind.app) index is built after `astro build`. Open search with <Kbd>⌘</Kbd> <Kbd>K</Kbd> or <Kbd>Ctrl</Kbd> <Kbd>K</Kbd>. During `astro dev` the index does not exist yet, so run a build and `astro preview` to try it.
+
+## Markdown routes
+
+Every page is also available as raw Markdown by adding `.md` to its URL, for example [/getting-started/introduction.md](/getting-started/introduction.md). The **Copy page** button copies the same content.
+
+## llms.txt
+
+| Route | Content |
+| --- | --- |
+| `/llms.txt` | Title, description and a linked index of every page |
+| `/llms-full.txt` | Every page's Markdown in sidebar order |
+
+## Open Graph images
+
+Each page gets a 1200×630 PNG at `/og/<slug>.png`, rendered with Lora from the page title and description. Set `site` in your Astro config so the image URL is absolute. Disable with `og: false`.

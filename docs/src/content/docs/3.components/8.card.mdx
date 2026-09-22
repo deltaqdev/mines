@@ -1,0 +1,54 @@
+---
+title: Card
+description: Linked or static blocks, arranged in a grid.
+---
+
+## Grid
+
+<CodePreview>
+<CardGroup>
+  <Card title="Installation" href="/getting-started/installation">
+    Add Mines to an Astro project.
+  </Card>
+  <Card title="Astro" href="https://astro.build">
+    External links show an arrow.
+  </Card>
+</CardGroup>
+
+```mdx
+<CardGroup>
+  <Card title="Installation" href="/getting-started/installation">
+    Add Mines to an Astro project.
+  </Card>
+  <Card title="Astro" href="https://astro.build">
+    External links show an arrow.
+  </Card>
+</CardGroup>
+```
+</CodePreview>
+
+## Three columns
+
+<CodePreview>
+<CardGroup cols={3}>
+  <Card title="Compact">Small type and tight spacing.</Card>
+  <Card title="Quiet">Icons only where they act.</Card>
+  <Card title="Owned">Replace any layout slot.</Card>
+</CardGroup>
+
+```mdx
+<CardGroup cols={3}>
+  <Card title="Compact">Small type and tight spacing.</Card>
+  <Card title="Quiet">Icons only where they act.</Card>
+  <Card title="Owned">Replace any layout slot.</Card>
+</CardGroup>
+```
+</CodePreview>
+
+## Props
+
+<FieldGroup>
+  <Field name="title" type="string" required>On `Card`: heading text.</Field>
+  <Field name="href" type="string">On `Card`: makes the card a link.</Field>
+  <Field name="cols" type="1 | 2 | 3" default="2">On `CardGroup`: number of columns.</Field>
+</FieldGroup>

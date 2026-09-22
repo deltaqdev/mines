@@ -1,0 +1,61 @@
+---
+import { readTags } from '../../lib/html';
+import { buildTree } from '../../lib/tree';
+import FileTree from '../ui/FileTree.astro';
+
+const html = await Astro.slots.render('default');
+const paths = readTags(html, /class="code"/, ['data-title']).map((tag, index) => tag['data-title'] || `file-${index}`);
+const tree = buildTree(paths);
+---
+
+<div class="code-tree" data-tabs>
+  <nav class="tree" aria-label="Files">
+    <FileTree nodes={tree} />
+  </nav>
+  <div class="panels" data-tab-panels set:html={html} />
+</div>
+
+<script>
+  import '../../scripts/tabs';
+</script>
+
+<style>
+  .code-tree {
+    display: grid;
+    grid-template-columns: 12rem minmax(0, 1fr);
+    height: 24rem;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--bg-subtle);
+    overflow: hidden;
+  }
+
+  .tree {
+    padding: 0.5rem;
+    border-right: 1px solid var(--border);
+    overflow: auto;
+  }
+
+  .panels {
+    min-height: 0;
+    overflow: auto;
+  }
+
+  .panels :global(.code) {
+    border: 0;
+    border-radius: 0;
+  }
+
+  @media (max-width: 40rem) {
+    .code-tree {
+      grid-template-columns: minmax(0, 1fr);
+      grid-template-rows: auto minmax(0, 1fr);
+    }
+
+    .tree {
+      max-height: 8rem;
+      border-right: 0;
+      border-bottom: 1px solid var(--border);
+    }
+  }
+</style>

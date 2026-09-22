@@ -1,0 +1,88 @@
+:root {
+  --font-sans: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --font-heading: 'Lora Variable', Georgia, 'Times New Roman', serif;
+  --font-mono: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace;
+
+  --text-xs: 0.75rem;
+  --text-sm: 0.8125rem;
+  --text-base: 0.9375rem;
+  --text-lg: 1.0625rem;
+
+  --header-height: 3rem;
+  --subnav-height: 2.5rem;
+  --sticky-top: calc(var(--header-height) + 1px);
+  --sidebar-width: 15rem;
+  --toc-width: 12.5rem;
+  --content-width: 45rem;
+  --page-width: 80rem;
+  --gutter: 1.5rem;
+  --page-inset: max(var(--gutter), (100vw - var(--page-width)) / 2 + var(--gutter));
+
+  --radius: 6px;
+  --radius-sm: 4px;
+  --duration: 150ms;
+  --duration-slow: 250ms;
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+
+  --bg: #ffffff;
+  --bg-subtle: #fafafa;
+  --bg-muted: #f4f4f5;
+  --border: #e4e4e7;
+  --border-strong: #d4d4d8;
+  --fg: #18181b;
+  --fg-muted: #52525b;
+  --fg-subtle: #71717a;
+
+  --accent: #000000;
+  --accent-soft: #0000000d;
+  --accent-contrast: #ffffff;
+  --selection-bg: var(--accent);
+  --selection-fg: var(--accent-contrast);
+
+  --note: #2563eb;
+  --note-soft: #eff6ff;
+  --tip: #047857;
+  --tip-soft: #ecfdf5;
+  --warning: #b45309;
+  --warning-soft: #fffbeb;
+  --caution: #dc2626;
+  --caution-soft: #fef2f2;
+
+  color-scheme: light;
+}
+
+@media (max-width: 48rem) {
+  :root {
+    --gutter: 1rem;
+  }
+}
+
+:root[data-subnav] {
+  --sticky-top: calc(var(--header-height) + var(--subnav-height) + 1px);
+}
+
+:root[data-theme='dark'] {
+  --bg: #0c0c0e;
+  --bg-subtle: #121215;
+  --bg-muted: #1c1c20;
+  --border: #27272a;
+  --border-strong: #3f3f46;
+  --fg: #fafafa;
+  --fg-muted: #a1a1aa;
+  --fg-subtle: #8a8a93;
+
+  --accent: #ffffff;
+  --accent-soft: #ffffff14;
+  --accent-contrast: #0c0c0e;
+
+  --note: #60a5fa;
+  --note-soft: #60a5fa14;
+  --tip: #34d399;
+  --tip-soft: #34d39914;
+  --warning: #fbbf24;
+  --warning-soft: #fbbf2414;
+  --caution: #f87171;
+  --caution-soft: #f8717114;
+
+  color-scheme: dark;
+}

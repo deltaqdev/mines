@@ -1,0 +1,31 @@
+---
+import { render, type CollectionEntry } from 'astro:content';
+import components from 'virtual:mines/mdx-components';
+import Docs from '../layouts/Docs.astro';
+import { getDocs } from '../lib/docs';
+
+type Props = { entry: CollectionEntry<'docs'>; redirect?: never } | { entry?: never; redirect: string };
+
+export async function getStaticPaths() {
+  const { entries, sections } = await getDocs();
+  const paths: { params: { slug?: string }; props: Props }[] = entries.map((entry) => ({
+    params: { slug: entry.id === 'index' ? undefined : entry.id },
+    props: { entry },
+  }));
+
+  const hasIndex = entries.some((entry) => entry.id === 'index');
+  if (!hasIndex && sections.length) {
+    paths.push({ params: { slug: undefined }, props: { redirect: sections[0].href } });
+  }
+  return paths;
+}
+
+const { entry, redirect } = Astro.props;
+if (!entry) return Astro.redirect(redirect);
+
+const { Content, headings } = await render(entry);
+---
+
+<Docs entry={entry} headings={headings}>
+  <Content components={components} />
+</Docs>

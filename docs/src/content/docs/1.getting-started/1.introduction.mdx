@@ -1,0 +1,29 @@
+---
+title: Introduction
+description: A minimal, compact documentation theme for Astro, inspired by Docus.
+---
+
+Mines is an Astro integration that turns a folder of MDX files into a documentation site. It ships a compact layout, a small set of prose components, full-text search, `llms.txt` and generated Open Graph images. No UI framework: every piece is plain HTML, CSS and a few lines of TypeScript.
+
+## What you get
+
+<CardGroup>
+  <Card title="Page shell" href="/guides/writing-content">
+    Header, sidebar, table of contents, pager and edit links, derived from your folder structure.
+  </Card>
+  <Card title="Prose components" href="/components/callout">
+    Callouts, tabs, code groups, steps, cards, accordions, fields and code trees.
+  </Card>
+  <Card title="Search" href="/guides/search-and-ai">
+    Static full-text search powered by Pagefind, opened with <Kbd>⌘</Kbd> <Kbd>K</Kbd>.
+  </Card>
+  <Card title="Made for LLMs" href="/guides/search-and-ai">
+    Every page is also served as Markdown, plus `llms.txt` and `llms-full.txt`.
+  </Card>
+</CardGroup>
+
+## Principles
+
+- **Compact.** Small type, tight spacing and narrow chrome keep the content in focus.
+- **Quiet.** Icons appear only where they are the control. Color is reserved for state.
+- **Owned.** Every layout slot can be replaced with your own Astro component.

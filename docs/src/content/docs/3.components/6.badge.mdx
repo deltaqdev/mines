@@ -1,0 +1,24 @@
+---
+title: Badge
+description: Short status labels.
+---
+
+Badges sit inline with text. Start the line with text so MDX keeps the spaces between them.
+
+<CodePreview>
+Released in <Badge>v0.1.0</Badge>
+
+Status: <Badge variant="note">Beta</Badge> <Badge variant="tip">New</Badge> <Badge variant="warning">Deprecated</Badge> <Badge variant="caution">Removed</Badge>
+
+```mdx
+Released in <Badge>v0.1.0</Badge>
+
+Status: <Badge variant="note">Beta</Badge> <Badge variant="tip">New</Badge> <Badge variant="warning">Deprecated</Badge> <Badge variant="caution">Removed</Badge>
+```
+</CodePreview>
+
+## Props
+
+<FieldGroup>
+  <Field name="variant" type="'neutral' | 'note' | 'tip' | 'warning' | 'caution'" default="'neutral'">Tone.</Field>
+</FieldGroup>

@@ -1,0 +1,35 @@
+---
+title: Field
+description: Document props, options and parameters.
+---
+
+<CodePreview>
+<FieldGroup>
+  <Field name="title" type="string" required>
+    Site name shown in the header.
+  </Field>
+  <Field name="subNav" type="'none' | 'header'" default="'none'">
+    Where top-level sections are listed.
+  </Field>
+</FieldGroup>
+
+```mdx
+<FieldGroup>
+  <Field name="title" type="string" required>
+    Site name shown in the header.
+  </Field>
+  <Field name="subNav" type="'none' | 'header'" default="'none'">
+    Where top-level sections are listed.
+  </Field>
+</FieldGroup>
+```
+</CodePreview>
+
+## Props
+
+<FieldGroup>
+  <Field name="name" type="string" required>Field name.</Field>
+  <Field name="type" type="string">Type signature.</Field>
+  <Field name="required" type="boolean">Adds a required marker.</Field>
+  <Field name="default" type="string">Default value.</Field>
+</FieldGroup>

@@ -1,0 +1,37 @@
+---
+title: Accordion
+description: Collapsible sections built on native details elements.
+---
+
+<CodePreview>
+<Accordion>
+  <AccordionItem title="Does Mines need a UI framework?" open>
+    No. Components are Astro files with plain CSS and small scripts.
+  </AccordionItem>
+  <AccordionItem title="Can I use Markdown instead of MDX?">
+    Yes. `.md` files work, but components require `.mdx`.
+  </AccordionItem>
+  <AccordionItem title="Does search work in dev?">
+    The index is built after `astro build`. Use `astro preview` to try it.
+  </AccordionItem>
+</Accordion>
+
+```mdx
+<Accordion>
+  <AccordionItem title="Does Mines need a UI framework?" open>
+    No. Components are Astro files with plain CSS and small scripts.
+  </AccordionItem>
+  <AccordionItem title="Can I use Markdown instead of MDX?">
+    Yes. `.md` files work, but components require `.mdx`.
+  </AccordionItem>
+</Accordion>
+```
+</CodePreview>
+
+## Props
+
+<FieldGroup>
+  <Field name="title" type="string" required>Summary text.</Field>
+  <Field name="open" type="boolean">Start expanded.</Field>
+  <Field name="name" type="string">Items sharing a name close each other when opened.</Field>
+</FieldGroup>

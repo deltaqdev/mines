@@ -1,0 +1,95 @@
+---
+import type { NavGroup } from '../../lib/navigation';
+
+interface Props {
+  groups: NavGroup[];
+  currentId: string;
+}
+
+const { groups, currentId } = Astro.props;
+---
+
+<nav class="sidebar" id="sidebar" aria-label="Documentation">
+  {
+    groups.map((group) => (
+      <div class="group">
+        {group.title && <p class="group-title">{group.title}</p>}
+        <ul>
+          {group.pages.map((page) => (
+            <li>
+              <a href={page.href} aria-current={page.id === currentId ? 'page' : undefined}>
+                {page.title}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+    ))
+  }
+</nav>
+
+<style>
+  .sidebar {
+    position: sticky;
+    top: var(--sticky-top);
+    height: calc(100dvh - var(--sticky-top));
+    padding: 1.5rem 0.5rem 2rem 0;
+    overflow-y: auto;
+    font-size: var(--text-sm);
+    scrollbar-width: thin;
+  }
+
+  .group + .group {
+    margin-top: 1.25rem;
+  }
+
+  .group-title {
+    margin-bottom: 0.375rem;
+    font-size: var(--text-xs);
+    font-weight: 600;
+    color: var(--fg);
+  }
+
+  ul {
+    list-style: none;
+    padding: 0;
+    border-left: 1px solid var(--border);
+  }
+
+  a {
+    display: block;
+    margin-left: -1px;
+    padding: 0.25rem 0.75rem;
+    border-left: 1px solid transparent;
+    color: var(--fg-muted);
+    line-height: 1.5;
+    transition: color var(--duration), border-color var(--duration);
+  }
+
+  a:hover {
+    color: var(--fg);
+    border-color: var(--border-strong);
+  }
+
+  a[aria-current='page'] {
+    color: var(--accent);
+    border-color: var(--accent);
+    font-weight: 500;
+  }
+
+  @media (max-width: 48rem) {
+    .sidebar {
+      display: none;
+      position: fixed;
+      inset: var(--sticky-top) 0 0;
+      z-index: 10;
+      height: auto;
+      padding: 1rem;
+      background: var(--bg);
+    }
+
+    :global([data-nav-open]) .sidebar {
+      display: block;
+    }
+  }
+</style>

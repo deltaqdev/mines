@@ -1,0 +1,43 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import config from 'virtual:mines/config';
+import { absoluteUrl, markdownHref, withBase } from '../../lib/path';
+
+interface Props {
+  entry: CollectionEntry<'docs'>;
+}
+
+const { entry } = Astro.props;
+const title = entry.id === 'index' ? config.title : `${entry.data.title} · ${config.title}`;
+const description = entry.data.description ?? config.description;
+const ogImage = config.og ? absoluteUrl(withBase(`og/${entry.id}.png`), Astro.site) : undefined;
+const canonical = Astro.site && new URL(Astro.url.pathname, Astro.site).href;
+---
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>{title}</title>
+  {description && <meta name="description" content={description} />}
+  {canonical && <link rel="canonical" href={canonical} />}
+  {config.favicon && <link rel="icon" href={withBase(config.favicon)} />}
+  <link rel="alternate" type="text/markdown" href={markdownHref(entry.id)} />
+  <meta property="og:type" content="article" />
+  <meta property="og:site_name" content={config.title} />
+  {canonical && <meta property="og:url" content={canonical} />}
+  <meta property="og:title" content={entry.data.title} />
+  {description && <meta property="og:description" content={description} />}
+  {ogImage && <meta property="og:image" content={ogImage} />}
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content={entry.data.title} />
+  {description && <meta name="twitter:description" content={description} />}
+  <script is:inline>
+    try {
+      const stored = localStorage.getItem('theme');
+      const prefersDark = matchMedia('(prefers-color-scheme: dark)').matches;
+      document.documentElement.dataset.theme = stored ?? (prefersDark ? 'dark' : 'light');
+    } catch {
+      document.documentElement.dataset.theme = 'light';
+    }
+  </script>
+</head>

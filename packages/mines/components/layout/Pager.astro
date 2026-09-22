@@ -1,0 +1,67 @@
+---
+import type { NavPage } from '../../lib/navigation';
+
+interface Props {
+  prev?: NavPage;
+  next?: NavPage;
+}
+
+const links = [
+  { page: Astro.props.prev, label: 'Previous', rel: 'prev' },
+  { page: Astro.props.next, label: 'Next', rel: 'next' },
+];
+---
+
+<nav class="pager" aria-label="Pagination">
+  {
+    links.map(({ page, label, rel }) =>
+      page ? (
+        <a class={rel} href={page.href} rel={rel}>
+          <span class="label">{label}</span>
+          <span class="title">{page.title}</span>
+        </a>
+      ) : (
+        <span />
+      ),
+    )
+  }
+</nav>
+
+<style>
+  .pager {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-top: 1.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--border);
+  }
+
+  a {
+    display: flex;
+    flex-direction: column;
+    gap: 0.125rem;
+    padding: 0.75rem 1rem;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    transition: border-color var(--duration);
+  }
+
+  a:hover {
+    border-color: var(--accent);
+  }
+
+  .next {
+    text-align: right;
+  }
+
+  .label {
+    font-size: var(--text-xs);
+    color: var(--fg-subtle);
+  }
+
+  .title {
+    font-size: var(--text-sm);
+    font-weight: 500;
+  }
+</style>

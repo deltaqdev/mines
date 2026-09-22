@@ -1,0 +1,41 @@
+---
+title: Theming
+description: Change colors, fonts and spacing with CSS variables.
+related:
+  - guides/overriding-components
+  - label: Lora on Google Fonts
+    href: https://fonts.google.com/specimen/Lora
+---
+
+The theme is driven by custom properties on `:root`. Override any of them in a stylesheet listed in `customCss`.
+
+```css [src/styles/theme.css]
+:root {
+  --accent: #7c3aed;
+  --accent-soft: #f5f3ff;
+  --font-heading: 'Fraunces', serif;
+}
+
+:root[data-theme='dark'] {
+  --accent: #a78bfa;
+  --accent-soft: #a78bfa1a;
+}
+```
+
+## Tokens
+
+<FieldGroup>
+  <Field name="--font-sans / --font-heading / --font-mono" type="font-family">
+    Body text uses the system stack. Headings use Lora, loaded from the package.
+  </Field>
+  <Field name="--text-xs … --text-lg" type="length">Type scale, from 12px to 17px.</Field>
+  <Field name="--bg / --bg-subtle / --bg-muted" type="color">Page, panel and hover backgrounds.</Field>
+  <Field name="--fg / --fg-muted / --fg-subtle" type="color">Text, secondary text and hints.</Field>
+  <Field name="--accent / --accent-soft" type="color">Active state, links and focus rings.</Field>
+  <Field name="--note / --tip / --warning / --caution" type="color">Callout and badge tones, each with a `-soft` variant.</Field>
+  <Field name="--sidebar-width / --toc-width / --content-width" type="length">Layout columns.</Field>
+</FieldGroup>
+
+## Dark mode
+
+The theme follows the system preference until the visitor picks one with the toggle. The choice is stored in `localStorage` and applied before first paint.

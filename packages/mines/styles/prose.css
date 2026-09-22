@@ -1,0 +1,229 @@
+.prose {
+  color: var(--fg-muted);
+  overflow-wrap: break-word;
+}
+
+.prose > * + * {
+  margin-top: 1rem;
+}
+
+.prose :where(h1, h2, h3, h4) {
+  color: var(--fg);
+  font-family: var(--font-heading);
+  font-weight: 600;
+  line-height: 1.3;
+  letter-spacing: -0.01em;
+}
+
+.prose h2 {
+  font-size: 1.5rem;
+  margin-top: 2.5rem;
+}
+
+.prose h3 {
+  font-size: 1.1875rem;
+  margin-top: 2rem;
+}
+
+.prose h4 {
+  font-size: var(--text-lg);
+  margin-top: 1.5rem;
+}
+
+.prose :where(h2, h3, h4) + * {
+  margin-top: 0.625rem;
+}
+
+.prose :where(strong, b) {
+  color: var(--fg);
+  font-weight: 600;
+}
+
+.prose a:not([class]) {
+  color: var(--fg);
+  font-weight: 500;
+  text-decoration: underline;
+  text-decoration-color: var(--accent);
+  text-underline-offset: 3px;
+  transition: text-decoration-thickness var(--duration);
+}
+
+.prose a:not([class]):hover {
+  text-decoration-thickness: 2px;
+}
+
+.prose :where(ul, ol):not([class]) {
+  padding-left: 1.25rem;
+}
+
+.prose :where(ul, ol):not([class]) > li + li,
+.prose :where(ul, ol):not([class]) > li > :where(ul, ol) {
+  margin-top: 0.375rem;
+}
+
+.prose li::marker {
+  color: var(--fg-subtle);
+}
+
+.prose blockquote {
+  padding-left: 1rem;
+  border-left: 2px solid var(--border-strong);
+  font-style: italic;
+}
+
+.prose hr {
+  border: 0;
+  border-top: 1px solid var(--border);
+  margin: 2rem 0;
+}
+
+.prose img {
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+}
+
+.prose :not(pre) > code {
+  padding: 0.125rem 0.375rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--bg-subtle);
+  color: var(--fg);
+  font-family: var(--font-mono);
+  font-size: 0.8125em;
+}
+
+.prose table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--text-sm);
+}
+
+.prose :where(th, td) {
+  padding: 0.5rem 0.75rem;
+  border-bottom: 1px solid var(--border);
+  text-align: left;
+}
+
+.prose th {
+  color: var(--fg);
+  font-weight: 600;
+}
+
+/* Code blocks */
+
+.code {
+  position: relative;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--bg-subtle);
+  overflow: hidden;
+}
+
+.code-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 2.25rem;
+  padding: 0 0.5rem 0 1rem;
+  border-bottom: 1px solid var(--border);
+  color: var(--fg-muted);
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+}
+
+.code pre {
+  padding: 0.75rem 0;
+  overflow-x: auto;
+  background: transparent !important;
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  line-height: 1.7;
+}
+
+.code pre code {
+  display: block;
+  width: fit-content;
+  min-width: 100%;
+}
+
+.code .line {
+  display: inline-block;
+  width: 100%;
+  padding: 0 1rem;
+}
+
+.code pre span {
+  color: var(--shiki-light);
+}
+
+[data-theme='dark'] .code pre span {
+  color: var(--shiki-dark);
+}
+
+.code .line.highlighted {
+  background: var(--bg-muted);
+  box-shadow: inset 2px 0 var(--accent);
+}
+
+.code .line.diff.add {
+  background: var(--tip-soft);
+  box-shadow: inset 2px 0 var(--tip);
+}
+
+.code .line.diff.remove {
+  background: var(--caution-soft);
+  box-shadow: inset 2px 0 var(--caution);
+  opacity: 0.75;
+}
+
+.code-copy {
+  width: 1.75rem;
+  height: 1.75rem;
+  border-radius: var(--radius-sm);
+  color: var(--fg-subtle);
+  transition: color var(--duration), background-color var(--duration), opacity var(--duration);
+}
+
+.code-copy::before {
+  content: '';
+  display: block;
+  width: 0.875rem;
+  height: 0.875rem;
+  margin: auto;
+  background: currentColor;
+  mask: var(--copy-icon) center / contain no-repeat;
+  --copy-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect width='14' height='14' x='8' y='8' rx='2'/%3E%3Cpath d='M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2'/%3E%3C/svg%3E");
+}
+
+.code-copy[data-copied]::before {
+  --copy-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 6 9 17l-5-5'/%3E%3C/svg%3E");
+}
+
+.code-copy:hover {
+  color: var(--fg);
+  background: var(--bg-muted);
+}
+
+.code > .code-copy {
+  position: absolute;
+  top: 0.4375rem;
+  right: 0.5rem;
+  opacity: 0;
+  background: var(--bg-subtle);
+}
+
+.code:hover > .code-copy,
+.code > .code-copy:focus-visible {
+  opacity: 1;
+}
+
+/* Shared by prose components */
+
+/* Inline components such as Badge and Kbd stay on the text line. */
+.stack > * + :not(span, kbd) {
+  margin-top: 0.75rem;
+}
+
+[data-tabs]:not([data-ready]) [data-tab-panels] > :not(:first-child) {
+  display: none;
+}

@@ -1,0 +1,51 @@
+---
+import Icon from '../ui/Icon.astro';
+
+interface Props {
+  title: string;
+  href?: string;
+}
+
+const { title, href } = Astro.props;
+const Element = href ? 'a' : 'div';
+const isExternal = href?.startsWith('http');
+---
+
+<Element class="card" href={href}>
+  <p class="title">
+    {title}
+    {isExternal && <Icon name="arrow-up-right" size={13} />}
+  </p>
+  <div class="body stack">
+    <slot />
+  </div>
+</Element>
+
+<style>
+  .card {
+    display: block;
+    padding: 1rem;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    font-size: var(--text-sm);
+    transition: border-color var(--duration), background-color var(--duration);
+  }
+
+  a.card:hover {
+    border-color: var(--accent);
+    background: var(--bg-subtle);
+  }
+
+  .title {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    margin-bottom: 0.25rem;
+    color: var(--fg);
+    font-weight: 600;
+  }
+
+  .body {
+    color: var(--fg-muted);
+  }
+</style>

@@ -1,0 +1,57 @@
+---
+title: Code group
+description: Group code blocks into tabs labeled by filename.
+---
+
+## Usage
+
+Tab labels come from each block's filename, or its language when there is none.
+
+<CodePreview>
+<CodeGroup sync="pm">
+```bash [pnpm]
+pnpm add @deltaq.dev/mines
+```
+```bash [npm]
+npm install @deltaq.dev/mines
+```
+```bash [yarn]
+yarn add @deltaq.dev/mines
+```
+</CodeGroup>
+
+````mdx
+<CodeGroup sync="pm">
+```bash [pnpm]
+pnpm add @deltaq.dev/mines
+```
+```bash [npm]
+npm install @deltaq.dev/mines
+```
+```bash [yarn]
+yarn add @deltaq.dev/mines
+```
+</CodeGroup>
+````
+</CodePreview>
+
+## Files
+
+<CodeGroup>
+```ts [server.ts]
+import { serve } from './serve';
+
+serve({ port: 3000 });
+```
+```ts [serve.ts]
+export function serve({ port }: { port: number }) {
+  console.log(`Listening on ${port}`);
+}
+```
+</CodeGroup>
+
+## Props
+
+<FieldGroup>
+  <Field name="sync" type="string">Key shared by groups that should switch together, such as `pm`.</Field>
+</FieldGroup>

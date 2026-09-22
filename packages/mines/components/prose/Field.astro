@@ -1,0 +1,72 @@
+---
+interface Props {
+  name: string;
+  type?: string;
+  required?: boolean;
+  default?: string;
+}
+
+const { name, type, required, default: defaultValue } = Astro.props;
+---
+
+<div class="field">
+  <p class="signature">
+    <code class="name">{name}</code>
+    {type && <code class="type">{type}</code>}
+    {required && <span class="required">required</span>}
+    {defaultValue && <span class="default">default: <code>{defaultValue}</code></span>}
+  </p>
+  <div class="body stack">
+    <slot />
+  </div>
+</div>
+
+<style>
+  .field {
+    padding: 0.75rem 0;
+    font-size: var(--text-sm);
+  }
+
+  .signature {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.5rem;
+    margin-bottom: 0.25rem;
+  }
+
+  .signature code {
+    padding: 0;
+    border: 0;
+    background: none;
+    font-family: var(--font-mono);
+    font-size: var(--text-sm);
+  }
+
+  .name {
+    color: var(--fg);
+    font-weight: 600;
+  }
+
+  .type {
+    color: var(--fg-subtle);
+  }
+
+  .required {
+    color: var(--caution);
+    font-size: var(--text-xs);
+  }
+
+  .default {
+    color: var(--fg-subtle);
+    font-size: var(--text-xs);
+  }
+
+  .default code {
+    font-size: var(--text-xs);
+  }
+
+  .body {
+    color: var(--fg-muted);
+  }
+</style>

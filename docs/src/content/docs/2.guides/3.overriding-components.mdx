@@ -1,0 +1,43 @@
+---
+title: Overriding components
+description: Replace layout slots or add your own MDX components.
+---
+
+## Layout slots
+
+Point a slot at your own `.astro` file. It receives the same props as the default.
+
+```js [astro.config.mjs]
+mines({
+  title: 'My Docs',
+  components: {
+    Footer: './src/components/Footer.astro',
+  },
+});
+```
+
+| Slot | Props |
+| --- | --- |
+| `Header` | `sections`, `currentSection` |
+| `Sidebar` | `groups`, `currentId` |
+| `PageHeader` | `entry`, `headline` |
+| `Toc` | `headings`, `links` |
+| `Pager` | `prev`, `next` |
+| `Footer` | `entry` |
+
+## MDX components
+
+Components in `mdxComponents` are available in every page. Using an existing name replaces the default.
+
+```js [astro.config.mjs]
+mines({
+  title: 'My Docs',
+  mdxComponents: {
+    Video: './src/components/Video.astro',
+  },
+});
+```
+
+<Callout type="note">
+  The default components are also exported from `@deltaq.dev/mines/components` if you want to wrap one.
+</Callout>

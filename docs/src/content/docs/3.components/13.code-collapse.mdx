@@ -1,0 +1,38 @@
+---
+title: Code collapse
+description: Fold long code blocks until the reader asks for more.
+---
+
+<CodePreview>
+<CodeCollapse>
+```ts [lib/path.ts]
+const ORDER_PREFIX = /^(\d+)\./;
+const EXTENSION = /\.mdx?$/;
+
+export interface Segment {
+  order: number;
+  name: string;
+}
+
+export function parseSegment(raw: string): Segment {
+  const match = raw.match(ORDER_PREFIX);
+  const name = raw.replace(ORDER_PREFIX, '').replace(EXTENSION, '');
+  return { order: match ? Number(match[1]) : Infinity, name };
+}
+
+export function toSlug(entryPath: string) {
+  const names = entryPath.split('/').map((raw) => parseSegment(raw).name);
+  if (names.length > 1 && names.at(-1) === 'index') names.pop();
+  return names.join('/');
+}
+```
+</CodeCollapse>
+
+````mdx
+<CodeCollapse>
+```ts [lib/path.ts]
+// long file
+```
+</CodeCollapse>
+````
+</CodePreview>

@@ -1,0 +1,216 @@
+---
+title: Deployment guide
+description: A long walkthrough for shipping a docs site, from first build to custom domain.
+related:
+  - guides/search-and-ai
+  - getting-started/configuration
+---
+
+This page is intentionally long. Use it to try the table of contents, scroll position, search excerpts and the pager on a realistic article.
+
+## Before you start
+
+A static docs site is a folder of HTML, CSS, images and a search index. Any host that serves files can serve it. Before picking one, check three things: where the build runs, how previews work for pull requests, and whether you need redirects.
+
+<Callout type="note">
+  Mines builds a fully static site. You do not need an adapter unless you add server-rendered pages yourself.
+</Callout>
+
+### Requirements
+
+- Node.js 22 or later
+- pnpm, npm or yarn
+- A Git repository the host can read
+
+### Checklist
+
+1. `site` is set in `astro.config.mjs`, so canonical URLs and OG images are absolute.
+2. `editUrl` points at your default branch.
+3. `pnpm build` succeeds locally and `pnpm preview` shows working search.
+
+## Building locally
+
+Run a production build before configuring any host. It surfaces broken links in MDX, schema errors in frontmatter and missing images.
+
+<CodeGroup sync="pm">
+```bash [pnpm]
+pnpm build
+pnpm preview
+```
+```bash [npm]
+npm run build
+npm run preview
+```
+</CodeGroup>
+
+### What the build produces
+
+| Path | Content |
+| --- | --- |
+| `dist/**/index.html` | One page per MDX file |
+| `dist/**/*.md` | Raw Markdown for every page |
+| `dist/og/**/*.png` | Open Graph images |
+| `dist/pagefind/` | Search index and runtime |
+| `dist/llms.txt` | Page index for language models |
+
+### Build time
+
+Most of the build is spent in two places: rendering MDX and generating OG images. A site with a hundred pages usually builds in well under a minute. If builds get slow, disable OG images in preview deployments.
+
+```js [astro.config.mjs] {3}
+mines({
+  title: 'My Docs',
+  og: process.env.CONTEXT === 'production',
+});
+```
+
+## Choosing a host
+
+Every host below serves static files from a CDN, builds on push and creates preview URLs for pull requests. Pick the one your team already uses.
+
+<CardGroup>
+  <Card title="Netlify">Build command `pnpm build`, publish directory `dist`.</Card>
+  <Card title="Vercel">Detects Astro automatically. Output directory `dist`.</Card>
+  <Card title="Cloudflare Pages">Framework preset Astro, output `dist`.</Card>
+  <Card title="GitHub Pages">Deploy with the official Astro action.</Card>
+</CardGroup>
+
+## Netlify
+
+Netlify reads build settings from `netlify.toml` at the repository root. Keeping settings in the repository makes them reviewable.
+
+```toml [netlify.toml]
+[build]
+  command = "pnpm build"
+  publish = "dist"
+
+[build.environment]
+  NODE_VERSION = "22"
+```
+
+### Redirects
+
+Netlify supports a `_redirects` file in `public/`. Use it when you rename or move pages so old links keep working.
+
+```txt [public/_redirects]
+/guides/setup   /getting-started/installation   301
+/api/*          /reference/:splat               301
+```
+
+### Headers
+
+Search files and hashed assets never change for a given URL, so they can be cached for a long time.
+
+```txt [public/_headers]
+/_astro/*
+  Cache-Control: public, max-age=31536000, immutable
+/pagefind/*
+  Cache-Control: public, max-age=3600
+```
+
+## Vercel
+
+Vercel detects Astro and needs no configuration for static output. Set the Node.js version in project settings or in `package.json`.
+
+```json [package.json]
+{
+  "engines": {
+    "node": ">=22"
+  }
+}
+```
+
+### Preview comments
+
+Every pull request gets a preview URL. Reviewers can open the changed page directly, and the **Copy page** button makes it easy to paste a page into a review thread.
+
+## Cloudflare Pages
+
+Create a project from your repository and choose the Astro preset. Cloudflare Pages also reads `_redirects` and `_headers` from `public/`, so the files from the Netlify section work unchanged.
+
+<Callout type="warning">
+  Cloudflare Pages limits a single deployment to 20,000 files. Large sites with OG images for every page can approach this.
+</Callout>
+
+## GitHub Pages
+
+GitHub Pages serves from a subpath unless you use a custom domain. Set `base` so links and assets resolve correctly.
+
+```js [astro.config.mjs] {4-5}
+import { defineConfig } from 'astro/config';
+
+export default defineConfig({
+  site: 'https://owner.github.io',
+  base: '/repo',
+});
+```
+
+### Workflow
+
+```yaml [.github/workflows/deploy.yml]
+name: Deploy
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: withastro/action@v3
+        with:
+          path: docs
+      - uses: actions/deploy-pages@v4
+```
+
+## Custom domains
+
+Point a subdomain like `docs.example.com` at your host with a `CNAME` record. Apex domains need `A` or `ALIAS` records, which differ per host.
+
+### HTTPS
+
+All hosts above issue certificates automatically once DNS resolves. Certificate issuance can take a few minutes after the record propagates.
+
+### Updating `site`
+
+Change `site` to the final domain and redeploy. Canonical links, `llms.txt` and OG image URLs are generated from it.
+
+## Monitoring
+
+A docs site rarely breaks at runtime, but links rot. Check for broken links on a schedule rather than on every build.
+
+<Accordion>
+  <AccordionItem title="How do I find broken internal links?">
+    Crawl the preview URL with a link checker such as `lychee` in CI.
+  </AccordionItem>
+  <AccordionItem title="How do I know which pages people read?">
+    Add a privacy-friendly analytics script through a custom `Head` component.
+  </AccordionItem>
+  <AccordionItem title="Why is search empty on my preview?">
+    The index is written after the build. Make sure the host deploys the whole `dist` folder, including `pagefind/`.
+  </AccordionItem>
+</Accordion>
+
+## Troubleshooting
+
+### Styles are missing
+
+Check `base`. When the site is served from a subpath, every asset URL must include it.
+
+### OG images show the wrong domain
+
+`site` is still the placeholder. Update it and rebuild.
+
+### Search returns old results
+
+The CDN is caching `pagefind/`. Lower its cache lifetime, or purge the cache after deploying.
+
+## Next steps
+
+You now have a site that builds, deploys on push and previews every change. From here, [theme it](/guides/theming) or [replace layout slots](/guides/overriding-components).

@@ -1,0 +1,71 @@
+---
+import Icon from '../ui/Icon.astro';
+import type { IconName } from '../ui/icons';
+
+type CalloutType = 'note' | 'tip' | 'warning' | 'caution';
+
+interface Props {
+  type?: CalloutType;
+  title?: string;
+}
+
+const variants: Record<CalloutType, { label: string; icon: IconName }> = {
+  note: { label: 'Note', icon: 'info' },
+  tip: { label: 'Tip', icon: 'lightbulb' },
+  warning: { label: 'Warning', icon: 'triangle-alert' },
+  caution: { label: 'Caution', icon: 'octagon-alert' },
+};
+
+const { type = 'note', title } = Astro.props;
+const { label, icon } = variants[type];
+---
+
+<aside class="callout" data-type={type}>
+  <p class="title">
+    <Icon name={icon} size={14} />
+    {title ?? label}
+  </p>
+  <div class="body stack">
+    <slot />
+  </div>
+</aside>
+
+<style>
+  .callout {
+    --tone: var(--note);
+    --tone-soft: var(--note-soft);
+    padding: 0.75rem 1rem;
+    border-left: 2px solid var(--tone);
+    border-radius: 0 var(--radius) var(--radius) 0;
+    background: var(--tone-soft);
+    font-size: var(--text-sm);
+  }
+
+  [data-type='tip'] {
+    --tone: var(--tip);
+    --tone-soft: var(--tip-soft);
+  }
+
+  [data-type='warning'] {
+    --tone: var(--warning);
+    --tone-soft: var(--warning-soft);
+  }
+
+  [data-type='caution'] {
+    --tone: var(--caution);
+    --tone-soft: var(--caution-soft);
+  }
+
+  .title {
+    display: flex;
+    align-items: center;
+    gap: 0.4375rem;
+    margin-bottom: 0.25rem;
+    color: var(--tone);
+    font-weight: 600;
+  }
+
+  .body {
+    color: var(--fg-muted);
+  }
+</style>

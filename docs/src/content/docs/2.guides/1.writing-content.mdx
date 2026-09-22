@@ -1,0 +1,45 @@
+---
+title: Writing content
+description: Markdown, MDX and code blocks.
+---
+
+Pages are MDX. Standard Markdown works as expected, and every [component](/components/callout) is available without an import.
+
+## Code blocks
+
+Add a filename in brackets after the language. Highlight lines with a range in braces.
+
+````md
+```ts [src/config.ts] {2}
+export const site = {
+  title: 'Mines',
+};
+```
+````
+
+```ts [src/config.ts] {2}
+export const site = {
+  title: 'Mines',
+};
+```
+
+Shiki notation comments mark diffs and highlights inline.
+
+```ts
+const theme = 'light'; // [!code --]
+const theme = 'dark'; // [!code ++]
+applyTheme(theme); // [!code highlight]
+```
+
+## Inline elements
+
+Text can use **bold**, _italic_, `inline code`, [links](/getting-started/introduction) and keyboard keys like <Kbd>Shift</Kbd>.
+
+> Blockquotes are quiet and italic.
+
+## Tables
+
+| Option | Type | Default |
+| --- | --- | --- |
+| `subNav` | `'none' \| 'header'` | `'none'` |
+| `og` | `boolean` | `true` |

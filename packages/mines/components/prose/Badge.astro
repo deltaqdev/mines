@@ -1,0 +1,46 @@
+---
+interface Props {
+  variant?: 'neutral' | 'note' | 'tip' | 'warning' | 'caution';
+}
+
+const { variant = 'neutral' } = Astro.props;
+---
+
+<span class="badge" data-variant={variant}><slot /></span>
+
+<style>
+  .badge {
+    --tone: var(--fg-muted);
+    --tone-soft: var(--bg-muted);
+    display: inline-flex;
+    align-items: center;
+    height: 1.25rem;
+    padding: 0 0.4375rem;
+    border-radius: var(--radius-sm);
+    background: var(--tone-soft);
+    color: var(--tone);
+    font-size: var(--text-xs);
+    font-weight: 500;
+    vertical-align: middle;
+  }
+
+  [data-variant='note'] {
+    --tone: var(--note);
+    --tone-soft: var(--note-soft);
+  }
+
+  [data-variant='tip'] {
+    --tone: var(--tip);
+    --tone-soft: var(--tip-soft);
+  }
+
+  [data-variant='warning'] {
+    --tone: var(--warning);
+    --tone-soft: var(--warning-soft);
+  }
+
+  [data-variant='caution'] {
+    --tone: var(--caution);
+    --tone-soft: var(--caution-soft);
+  }
+</style>

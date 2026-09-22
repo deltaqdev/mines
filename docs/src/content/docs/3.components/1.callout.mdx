@@ -1,0 +1,41 @@
+---
+title: Callout
+description: Highlight information that readers should not miss.
+---
+
+## Types
+
+<CodePreview>
+<Callout type="note">Pages are sorted by their numeric prefix.</Callout>
+<Callout type="tip">Use `sync` on code groups to remember a package manager.</Callout>
+<Callout type="warning">`editUrl` must end with a slash.</Callout>
+<Callout type="caution">Removing a page breaks links to it.</Callout>
+
+```mdx
+<Callout type="note">Pages are sorted by their numeric prefix.</Callout>
+<Callout type="tip">Use `sync` on code groups to remember a package manager.</Callout>
+<Callout type="warning">`editUrl` must end with a slash.</Callout>
+<Callout type="caution">Removing a page breaks links to it.</Callout>
+```
+</CodePreview>
+
+## Custom title
+
+<CodePreview>
+<Callout type="tip" title="Good to know">
+  Callouts accept any Markdown, including **bold** text and [links](/components/badge).
+</Callout>
+
+```mdx
+<Callout type="tip" title="Good to know">
+  Callouts accept any Markdown, including **bold** text and [links](/components/badge).
+</Callout>
+```
+</CodePreview>
+
+## Props
+
+<FieldGroup>
+  <Field name="type" type="'note' | 'tip' | 'warning' | 'caution'" default="'note'">Tone and icon.</Field>
+  <Field name="title" type="string">Replaces the default label.</Field>
+</FieldGroup>

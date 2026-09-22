@@ -1,0 +1,60 @@
+---
+title: Code block
+description: Syntax highlighting with filenames, line highlights and diffs.
+---
+
+## Filename
+
+<CodePreview>
+```ts [src/greet.ts]
+export const greet = (name: string) => `Hello, ${name}`;
+```
+
+````mdx
+```ts [src/greet.ts]
+export const greet = (name: string) => `Hello, ${name}`;
+```
+````
+</CodePreview>
+
+## Highlighted lines
+
+<CodePreview>
+```js {2-3}
+const config = {
+  title: 'Mines',
+  subNav: 'header',
+  og: true,
+};
+```
+
+````mdx
+```js {2-3}
+const config = {
+  title: 'Mines',
+  subNav: 'header',
+  og: true,
+};
+```
+````
+</CodePreview>
+
+## Diff
+
+<CodePreview>
+```css
+:root {
+  --accent: #047857; /* [!code --] */
+  --accent: #7c3aed; /* [!code ++] */
+}
+```
+
+````mdx
+```css
+:root {
+  --accent: #047857; /* [!code --] */
+  --accent: #7c3aed; /* [!code ++] */
+}
+```
+````
+</CodePreview>

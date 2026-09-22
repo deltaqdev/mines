@@ -1,0 +1,31 @@
+---
+import { readTags } from '../../lib/html';
+import TabList from '../ui/TabList.astro';
+
+interface Props {
+  sync?: string;
+}
+
+const html = await Astro.slots.render('default');
+const labels = readTags(html, /data-tab-label/, ['data-tab-label']).map((tag) => tag['data-tab-label']);
+---
+
+<div class="tabs" data-tabs data-sync={Astro.props.sync}>
+  <TabList labels={labels} />
+  <div class="panels" data-tab-panels set:html={html} />
+</div>
+
+<script>
+  import '../../scripts/tabs';
+</script>
+
+<style>
+  .tabs {
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+  }
+
+  .panels {
+    padding: 1rem;
+  }
+</style>

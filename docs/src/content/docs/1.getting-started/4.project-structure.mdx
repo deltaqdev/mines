@@ -1,0 +1,66 @@
+---
+title: Project structure
+description: How files map to URLs and sidebar entries.
+---
+
+<CodeTree>
+```js [astro.config.mjs]
+import { defineConfig } from 'astro/config';
+import mines from '@deltaq.dev/mines';
+
+export default defineConfig({
+  integrations: [mines({ title: 'My Docs' })],
+});
+```
+```ts [src/content.config.ts]
+import { defineCollection } from 'astro:content';
+import { docsLoader, docsSchema } from '@deltaq.dev/mines/loader';
+
+export const collections = {
+  docs: defineCollection({ loader: docsLoader(), schema: docsSchema() }),
+};
+```
+```mdx [src/content/docs/1.getting-started/1.introduction.mdx]
+---
+title: Introduction
+---
+```
+```mdx [src/content/docs/1.getting-started/2.installation.mdx]
+---
+title: Installation
+---
+```
+```mdx [src/content/docs/2.guides/1.theming.mdx]
+---
+title: Theming
+---
+```
+```css [src/styles/theme.css]
+:root {
+  --accent: #7c3aed;
+}
+```
+</CodeTree>
+
+## Ordering
+
+Numeric prefixes set the order of folders and pages and are removed from URLs.
+
+| File | URL |
+| --- | --- |
+| `1.getting-started/1.introduction.mdx` | `/getting-started/introduction` |
+| `2.guides/index.mdx` | `/guides` |
+| `index.mdx` | `/` |
+
+Without a root `index.mdx`, `/` redirects to the first page.
+
+## Frontmatter
+
+<FieldGroup>
+  <Field name="title" type="string" required>Page title, used in the sidebar, header and search results.</Field>
+  <Field name="description" type="string">Shown under the title and used for meta tags.</Field>
+  <Field name="toc" type="boolean" default="true">Hide the table of contents with `false`.</Field>
+  <Field name="related" type="(string | { label: string; href: string })[]" default="[]">
+    Links shown below the table of contents. A string is a page slug such as `guides/theming`, and its title is used as the label. Unknown slugs fail the build.
+  </Field>
+</FieldGroup>
