@@ -2,6 +2,7 @@
   "name": "mines-monorepo",
   "private": true,
   "type": "module",
+  "packageManager": "pnpm@10.33.0",
   "scripts": {
     "dev": "pnpm --filter docs dev",
     "build": "pnpm --filter docs build",
