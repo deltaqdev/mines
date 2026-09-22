@@ -57,3 +57,7 @@ packages/mines/
   scripts/            client scripts shared by several components
   styles/             tokens, base, prose
 ```
+
+## License
+
+[MIT](LICENSE)
