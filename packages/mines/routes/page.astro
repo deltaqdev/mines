@@ -1,6 +1,7 @@
 ---
 import { render, type CollectionEntry } from 'astro:content';
 import components from 'virtual:mines/mdx-components';
+import Redirect from '../components/layout/Redirect.astro';
 import Docs from '../layouts/Docs.astro';
 import { getDocs } from '../lib/docs';
 
@@ -21,11 +22,15 @@ export async function getStaticPaths() {
 }
 
 const { entry, redirect } = Astro.props;
-if (!entry) return Astro.redirect(redirect);
-
-const { Content, headings } = await render(entry);
+const rendered = entry && (await render(entry));
 ---
 
-<Docs entry={entry} headings={headings}>
-  <Content components={components} />
-</Docs>
+{
+  rendered ? (
+    <Docs entry={entry!} headings={rendered.headings}>
+      <rendered.Content components={components} />
+    </Docs>
+  ) : (
+    <Redirect to={redirect!} />
+  )
+}
