@@ -1,6 +1,6 @@
 {
   "name": "@deltaq.dev/mines",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "A minimal Astro docs integration",
   "type": "module",
   "license": "MIT",
